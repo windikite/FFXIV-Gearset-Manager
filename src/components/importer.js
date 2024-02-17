@@ -9,7 +9,6 @@ function Importer({
     costData
 }) {
     const [link, setLink] = useState('');
-
     const handleClick = async () => {
         try {
             const index = link.lastIndexOf('/');
@@ -23,35 +22,46 @@ function Importer({
                 equipment.push(item);
                 return item;
             }
-
+            console.log(gearset)
             function getStats(items){
                 const totalCost = [];
                 const costObj = {
                 }
-                const drops = [];
                 items.forEach(x => {
-                    let found = costData.findIndex(i => i.name === x.name);
-                    if(found !== -1){
-                        const tomes = costData[found].tomeCost;
-                        const books = costData[found].bookCost;
-                        function addHowToGet(currency, reference){
-                            const foundData = costData[found];
-                            const currencyName = currency.name;
-                            const amount = foundData[reference].amount;
-                            console.log(costData, foundData, currencyName, amount)
-                            costObj[currencyName] = amount;
-                            console.log(`new costObj`, costObj)
+                    function searchItem(item){
+                        //attempt to find the object in the database
+                        let found = costData.findIndex(i => i.name[0][0] === item);
+                        if(found !== -1){
+                            return costData[found];
+                        }else{
+                            return -1
                         }
-                        const tomesToAdd =  (tomes.name !== null) ? addHowToGet(tomes, "tomeCost") : null;
-                        const booksToAdd =  (books.name !== null) ? addHowToGet(books, "bookCost") : null;
                     }
+                    function getMaterials(item){
+                        //attempt to find the object in the database
+                        let found = searchItem(item.name)
+                        //if found, do further checking
+                        if(found !== -1){
+                            console.log(`found item`, item)
+                            found.materials.forEach(x => {
+                                let foundMat = searchItem(x[0]);
+                                if(foundMat !== -1){
+                                    console.log(`found itemMat`, x)
+                                    foundMat.materials.forEach(o => {
+                                        costObj[o[0]] = costObj[o[0]] ? costObj[o[0]] += o[1] : o[1]
+                                    })
+                                }else{
+                                    console.log(`did not find itemMat`, x)
+                                    costObj[x[0]] = costObj[x[0]] ? costObj[x[0]] += x[1] : x[1]
+                                }
+                            })
+                        }
+                    }
+                    getMaterials(x)
                 })
-                console.log(Object.entries(costObj))
                 Object.entries(costObj).forEach((value) => {
                     totalCost.push(`${value[1]} ${value[0]}`)
-                    // console.log(`${value} ${key}`)
                 })
-                // console.log(costObj, totalCost)
                 return totalCost
                 
             }
@@ -62,7 +72,12 @@ function Importer({
                 const hands = await gearset.hands ? findGear(gearset.hands) : null;
                 const legs = await gearset.legs ? findGear(gearset.legs) : null;
                 const feet = await gearset.feet ? findGear(gearset.feet) : null;
-                Promise.all([weapon, head, body, hands, legs, feet]).then(response => {
+                const ears = await gearset.ears ? findGear(gearset.ears) : null;
+                const neck = await gearset.neck ? findGear(gearset.neck) : null;
+                const wrists = await gearset.wrists ? findGear(gearset.wrists) : null;
+                const fingerL = await gearset.fingerL ? findGear(gearset.fingerL) : null;
+                const fingerR = await gearset.fingerR ? findGear(gearset.fingerR) : null;
+                Promise.all([weapon, head, body, hands, legs, feet, ears, neck, wrists, fingerL, fingerR]).then(response => {
                     const cost = getStats(response)
                     const cleanGearset = {
                         name: `${gearset.jobAbbrev} ${gearset.name}`,

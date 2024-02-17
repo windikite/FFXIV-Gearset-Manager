@@ -9,55 +9,16 @@ import Container from 'react-bootstrap/Container';
 import Spinner from './components/Spinner/Spinner';
 import axios from 'axios';
 import Collection from './components/collection';
+let costData = require('./resources/ff14gear.json');
 
 function App() {
   const [gearsetList, setGearsets] = useState([]);
   const [gearArray, setGearArray] = useState([]);
   const [equipmentData, setData] = useState([]);
-  const costData = [
-    {
-      name: "Harp Bow of Ascension",
-      tomeCost: {
-        name: null,
-        amount: 0
-      },
-      bookCost: {
-        name: "Books of Asphodelos",
-        amount: 8
-      },
-      upgrade: {
-        floor: 0,
-        item: null
-      },
-      drop: {
-        floor: 1,
-        chest: "weapon"
-      }
-    },
-    {
-      name: "Augmented Credendum Mail of Aiming",
-      tomeCost: {
-        name: "Allagan Tomestones of Poetics",
-        amount: 875
-      },
-      bookCost: {
-        name: null,
-        amount: 0
-      },
-      upgrade: {
-        floor: 3,
-        item: "twine"
-      },
-      drop: {
-        floor: 0,
-        chest: null
-      }
-    },
-  ]
 
   useEffect(() => {
       const fetchData = async () => {
-          const result = await axios('https://etro.gg/api/equipment/');
+          const result = await axios('https://etro.gg/api/equipment/?minLevel=90');
           setData(result.data);
       };
       fetchData();
@@ -103,7 +64,7 @@ function App() {
         </h1>
         <Collection
           gearArray={gearsetList}
-          collectionName="Imported Sets"
+          collectionName="Sets"
           setGearArray={addGearsetToCollection}
         />
       </Container>
@@ -112,7 +73,7 @@ function App() {
         <h1>Selected Sets</h1>
         <Collection
           gearArray={gearArray}
-          collectionName={"Selected Sets"}
+          collectionName={"Sets"}
           setGearArray={removeGearsetFromCollection}
         />
       </Container>

@@ -61,7 +61,19 @@ function List({
             
         }else{
             return(
-                <h1>loading...</h1>
+                <table className="table table-striped">
+                    <thead>
+                            <tr className="table table-striped" >
+                                {name1}
+                                {header1}
+                                {header2}
+                                {header3}
+                                {header4}
+                                {header5}
+                                
+                            </tr>
+                        </thead>
+                </table>
             )
         }
     }
