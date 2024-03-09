@@ -15,12 +15,12 @@ function collection({
                     h2="ILvl"
                     h3="GCD"  
                     h4="Expected DPS"
-                    h5="Cost"
+                    h5=""
                     c1=""
                     c2="ilvl"
                     c3="gcd"
                     c4="dps"
-                    c5="cost"
+                    c5=""
                     setSelectedData={setGearArray}
                 />
      );

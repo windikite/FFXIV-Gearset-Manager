@@ -1,0 +1,58 @@
+.characterBox{
+    max-width: 250px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.characterBox select{
+    width: 100%;
+}
+
+.equipmentBox{
+    display: flex;
+    justify-content: space-between;
+    max-width: 112px;
+    min-width: 112px;
+    padding: 5px;
+    margin: auto;
+}
+
+.equipmentSlot{
+    height: 50px;
+    width: 50px;
+    padding: auto;
+}
+
+.equipmentSlot button{
+    height: 50px;
+    width: 50px;
+    /* margin: auto; */
+    
+}
+
+.equipmentInfo{
+    min-width: 110px;
+    color: white;
+    padding: 2px;
+    font-size: smaller;
+}
+
+.equipmentInfo ul{
+    list-style-type: none;
+    padding-left: 0px;
+    text-align: center;
+}
+
+.equipmentInfo ul li{
+    margin-bottom: 4px;
+}
+
+
+
+/* .leftSide{
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+} */

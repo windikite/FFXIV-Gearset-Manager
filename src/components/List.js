@@ -13,8 +13,7 @@ function List({
     c2,
     c3,
     c4,
-    c5,
-    setSelectedData
+    c5
 }) {
     const name1 = name ? <th scope="col">{name}</th> : null;
     const header1 = h1 ? <th scope="col">{h1}</th> : null;
@@ -50,7 +49,6 @@ function List({
                                 c3={c3}
                                 c4={c4}
                                 c5={c5}
-                                setSelectedData={setSelectedData}
                                 />)}
                                 
                         </tbody>

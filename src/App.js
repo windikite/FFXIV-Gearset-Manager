@@ -9,6 +9,9 @@ import Container from 'react-bootstrap/Container';
 import Spinner from './components/Spinner/Spinner';
 import axios from 'axios';
 import Collection from './components/collection';
+import PartyContainer from './components/PartyContainer';
+
+
 let costData = require('./resources/ff14gear.json');
 
 function App() {
@@ -47,7 +50,7 @@ function App() {
     <Container className='p-3 border-primary-subtle'>
       <Header />
       {/* <Navbar /> */}
-      <Container >
+      <Container className='mt-3 mb-3 p-3 bg-dark-subtle border border-dark-subtle rounded-3'>
         {equipmentData.length > 0 ? 
           <Importer 
           gearsetList={gearsetList} 
@@ -57,8 +60,7 @@ function App() {
           />
         : <Spinner />}
       </Container>
-      <h2>Import sets above, then add the imported sets to your collection using the "+" buttons</h2>
-      <Container >
+      <Container className='mt-3 mb-3 p-3 bg-dark-subtle border border-dark-subtle rounded-3'>
         <h1>
           Imported Sets
         </h1>
@@ -67,16 +69,12 @@ function App() {
           collectionName="Sets"
           setGearArray={addGearsetToCollection}
         />
+
       </Container>
       
-      <Container >
-        <h1>Selected Sets</h1>
-        <Collection
-          gearArray={gearArray}
-          collectionName={"Sets"}
-          setGearArray={removeGearsetFromCollection}
-        />
-      </Container>
+      <PartyContainer
+        gearsetList={gearsetList}
+      />
         
     </Container>
   );

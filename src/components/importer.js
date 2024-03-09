@@ -22,7 +22,7 @@ function Importer({
                 equipment.push(item);
                 return item;
             }
-            console.log(gearset)
+            // console.log(gearset)
             function getStats(items){
                 const totalCost = [];
                 const costObj = {
@@ -42,16 +42,16 @@ function Importer({
                         let found = searchItem(item.name)
                         //if found, do further checking
                         if(found !== -1){
-                            console.log(`found item`, item)
+                            // console.log(`found item`, item)
                             found.materials.forEach(x => {
                                 let foundMat = searchItem(x[0]);
                                 if(foundMat !== -1){
-                                    console.log(`found itemMat`, x)
+                                    // console.log(`found itemMat`, x)
                                     foundMat.materials.forEach(o => {
                                         costObj[o[0]] = costObj[o[0]] ? costObj[o[0]] += o[1] : o[1]
                                     })
                                 }else{
-                                    console.log(`did not find itemMat`, x)
+                                    // console.log(`did not find itemMat`, x)
                                     costObj[x[0]] = costObj[x[0]] ? costObj[x[0]] += x[1] : x[1]
                                 }
                             })
@@ -103,14 +103,14 @@ function Importer({
         }
     }
 
-    function checkResponse(gearsetList) {
-        if (gearsetList.length > 0) {
-            return <div className='App'>Added {gearsetList[0].jobAbbrev} {gearsetList[0].name}</div>;
-        } else {
-            return null;
-        }
+    // function checkResponse(gearsetList) {
+    //     if (gearsetList.length > 0) {
+    //         return <div className='App'>Added {gearsetList[0].jobAbbrev} {gearsetList[0].name}</div>;
+    //     } else {
+    //         return null;
+    //     }
 
-    }
+    // }
 
     return ( 
         <>
@@ -128,12 +128,17 @@ function Importer({
                     <option value="https://etro.gg/gearset/03eb2e94-9ab4-4c2a-88fc-3dee7802dcba">BLM</option>
                     <option value="https://etro.gg/gearset/a4c03205-c821-4f25-a153-59f40d6dbc85">AST</option>
                     <option value="https://etro.gg/gearset/5e70fc74-2509-42dc-948f-fdeecc14ae17">BRD</option>
+                    <option value="https://etro.gg/gearset/a4d2d7e3-dcfe-4659-acac-5be0a8e3cb89">DRG</option>
+                    <option value="https://etro.gg/gearset/fdb40071-44c4-41ec-91fa-0783d590e990">GNB</option>
+                    <option value="https://etro.gg/gearset/837d0f5d-8ac7-4fc3-ba38-5ea7c3c44f50">NIN</option>
+                    <option value="https://etro.gg/gearset/2d18b9db-a3ea-475a-91be-4631b0ea63d4">SGE</option>
+                    <option value="https://etro.gg/gearset/9b78316a-233c-444c-8c3b-499e53678128">WAR</option>
                 </select>
                 <div className="input-group-append">
                     <button className="btn btn-outline-secondary rounded-3" onClick={handleClick} type="button">Import</button>
                 </div>
             </div>
-            {checkResponse(gearsetList)}
+            {/* {checkResponse(gearsetList)} */}
         </>
         
      );

@@ -89,11 +89,11 @@ function Item({
                 <td>{gearArray.find(e => e.slotName === "weapon").name}</td> */}
                 <td><button className="btn btn-outline-success me-2" type="button" ><b>Q</b></button>
                 </td>
-                <td><button 
+                {/* <td><button 
                     className="btn btn-outline-success me-2" 
                     type="button" 
                     onClick={e => changeSelected(item)}
-                    ><b>+</b></button></td>
+                    ><b>+</b></button></td> */}
                 
                 
             </tr>
