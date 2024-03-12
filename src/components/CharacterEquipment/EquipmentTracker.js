@@ -10,6 +10,9 @@ function EquipmentTracker({
 }) {
     let gearSetCost = character.gearset ? (character.gearset.cost ? character.gearset.cost.map(x => <li>{x}</li>) : '') : '';
 
+    const leftSide = ['weapon', 'body', 'hands', 'legs', 'feet'];
+    const rightSide = ['ears', 'neck', 'wrists', 'finger', 'finger'];
+
     function checkOptions(){
         return <select onChange={(e) => changeGearset(character, e.target.value)}>
             <option value={null}>---</option>
@@ -17,6 +20,18 @@ function EquipmentTracker({
                 return <option value={x.name} key={x.name}>{x.name}</option>
             })}
         </select>
+    }
+
+    function checkImg(slot){
+        let img_path = './resources/ff14assets/hS0hxezTqDeid-w7F6z01MvS5E.png';
+        if(character.gearset){
+            let piece = character.gearset.pieces.find(x => x.type == slot);
+            if(piece){
+                img_path = piece.img_path ? piece.img_path : './resources/ff14assets/hS0hxezTqDeid-w7F6z01MvS5E.png';
+            }
+        }
+        
+        return img_path
     }
     return ( 
         <div className='characterBox bg-secondary border border-dark-subtle rounded-3'>
@@ -36,41 +51,18 @@ function EquipmentTracker({
                 </div>
                 <div className='equipmentBox bg-dark border border-dark-subtle rounded-3 bg-opacity-75'>
                     <div className='leftSide'>
-                        <EquipmentSlot 
-                            name={'Weapon'}
-                        />
-                        <EquipmentSlot 
-                            name={'Head'}
-                        />
-                        <EquipmentSlot 
-                            name={'Chest'}
-                        />
-                        <EquipmentSlot 
-                            name={'Gloves'}
-                        />
-                        <EquipmentSlot 
-                            name={'Pants'}
-                        />
-                        <EquipmentSlot 
-                            name={'Boots'}
-                        />
+                        {leftSide.map(x => 
+                            <EquipmentSlot 
+                                img={checkImg(x)}
+                            />)
+                        }
                     </div>
                     <div className='rightSide'>
-                        <EquipmentSlot 
-                            name={'Earring'}
-                        />
-                        <EquipmentSlot 
-                            name={'Neck'}
-                        />
-                        <EquipmentSlot 
-                            name={'Wrist'}
-                        />
-                        <EquipmentSlot 
-                            name={'RingL'}
-                        />
-                        <EquipmentSlot 
-                            name={'RingR'}
-                        />
+                        {rightSide.map(x => 
+                            <EquipmentSlot 
+                                img={checkImg(x)}
+                            />)
+                        }
                     </div>
                 </div>
             </div>

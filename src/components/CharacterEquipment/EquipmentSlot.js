@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 function EquipmentSlot({
-    name
+    name,
+    img
 }) {
     return ( 
         <div className='equipmentSlot'>
-            <button type="button">{name}</button>
+            <input type='image' src={img}/>
         </div>
      );
 }

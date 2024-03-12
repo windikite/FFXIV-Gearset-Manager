@@ -23,11 +23,19 @@ function Importer({
                 return item;
             }
             // console.log(gearset)
-            function getStats(items){
+            function parseSet(items){
                 const totalCost = [];
                 const costObj = {
                 }
+                const setClean = [];
                 items.forEach(x => {
+                    console.log(x)
+                    let cleanItem = {
+                        name: x.name,
+                        type: x.slotName,
+                        img_path: '',
+                        submats: []
+                    }
                     function searchItem(item){
                         //attempt to find the object in the database
                         let found = costData.findIndex(i => i.name[0][0] === item);
@@ -40,29 +48,43 @@ function Importer({
                     function getMaterials(item){
                         //attempt to find the object in the database
                         let found = searchItem(item.name)
+                        if(found){
+                            let img_url = found.name[0][1]
+                            let last_slash = img_url.lastIndexOf('/');
+                            let first_cut = img_url.slice(last_slash+1)
+                            let dot = first_cut.indexOf('.');
+                            cleanItem.img_path = `./resources/ff14assets/${first_cut.slice(0, dot)}.png`
+                        }
                         //if found, do further checking
                         if(found !== -1){
                             // console.log(`found item`, item)
                             found.materials.forEach(x => {
+                                //check if item can be broken down further
                                 let foundMat = searchItem(x[0]);
                                 if(foundMat !== -1){
-                                    // console.log(`found itemMat`, x)
+                                    let submat = [foundMat.name[0], foundMat.name[1]]
+                                    cleanItem.submats.push(submat)
+                                    // item can be broken down further
                                     foundMat.materials.forEach(o => {
-                                        costObj[o[0]] = costObj[o[0]] ? costObj[o[0]] += o[1] : o[1]
+                                        costObj[o[0]] = costObj[o[0]] ? costObj[o[0]] += o[2] : o[2]
                                     })
                                 }else{
-                                    // console.log(`did not find itemMat`, x)
-                                    costObj[x[0]] = costObj[x[0]] ? costObj[x[0]] += x[1] : x[1]
+                                    // item is a currency or token and cannot be broken down any further
+                                    costObj[x[0]] = costObj[x[0]] ? costObj[x[0]] += x[2] : x[2];
                                 }
                             })
                         }
                     }
                     getMaterials(x)
+                    setClean.push(cleanItem)
                 })
                 Object.entries(costObj).forEach((value) => {
                     totalCost.push(`${value[1]} ${value[0]}`)
                 })
-                return totalCost
+                let data = {};
+                data['setClean'] = setClean;
+                data['totalCost'] = totalCost;
+                return data
                 
             }
             if(equipmentData && gearset){
@@ -78,10 +100,11 @@ function Importer({
                 const fingerL = await gearset.fingerL ? findGear(gearset.fingerL) : null;
                 const fingerR = await gearset.fingerR ? findGear(gearset.fingerR) : null;
                 Promise.all([weapon, head, body, hands, legs, feet, ears, neck, wrists, fingerL, fingerR]).then(response => {
-                    const cost = getStats(response)
+                    const parsedSet = parseSet(response)
                     const cleanGearset = {
                         name: `${gearset.jobAbbrev} ${gearset.name}`,
-                        cost: cost,
+                        cost: parsedSet.totalCost,
+                        pieces: parsedSet.setClean,
                         gcd: gearset.totalParams.find(e => e.name === "GCD").value,
                         ilvl: gearset.totalParams.find(e => e.name === "Average Item Level").value,
                         dps: gearset.totalParams.find(e => e.name === "Damage (Expected)").value,
