@@ -23,11 +23,11 @@ function EquipmentTracker({
     }
 
     function checkImg(slot){
-        let img_path = './ff14assets/hS0hxezTqDeid-w7F6z01MvS5E.png';
+        let img_path = './resources/ff14assets/hS0hxezTqDeid-w7F6z01MvS5E.png';
         if(character.gearset){
             let piece = character.gearset.pieces.find(x => x.type == slot);
             if(piece){
-                img_path = piece.img_path ? piece.img_path : './ff14assets/hS0hxezTqDeid-w7F6z01MvS5E.png';
+                img_path = piece.img_path ? piece.img_path : './resources/ff14assets/hS0hxezTqDeid-w7F6z01MvS5E.png';
             }
         }
         
