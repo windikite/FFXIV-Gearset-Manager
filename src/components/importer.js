@@ -22,7 +22,7 @@ function Importer({
                 equipment.push(item);
                 return item;
             }
-            // console.log(gearset)
+            console.log(gearset)
             function parseSet(items){
                 const totalCost = [];
                 const costObj = {
@@ -36,18 +36,21 @@ function Importer({
                         img_path: '',
                         submats: []
                     }
-                    function searchItem(item){
+                    function searchItem(itemName){
                         //attempt to find the object in the database
-                        let found = costData.findIndex(i => i.name[0][0] === item);
-                        if(found !== -1){
-                            return costData[found];
+                        let foundIndex = costData.findIndex(i => i.name?.[0]?.[0] === itemName);
+                        if(foundIndex !== -1){
+                            return costData[foundIndex];
                         }else{
                             return -1
                         }
                     }
                     function getMaterials(item){
                         //attempt to find the object in the database
+                        console.log("name", item)
                         let found = searchItem(item.name)
+                        console.log("found", found)
+                        console.log("found name", found.name[0][1])
                         if(found){
                             let img_url = found.name[0][1]
                             let last_slash = img_url.lastIndexOf('/');
@@ -107,7 +110,7 @@ function Importer({
                         pieces: parsedSet.setClean,
                         gcd: gearset.totalParams.find(e => e.name === "GCD").value,
                         ilvl: gearset.totalParams.find(e => e.name === "Average Item Level").value,
-                        dps: gearset.totalParams.find(e => e.name === "Damage (Expected)").value,
+                        dps: gearset.totalParams.find(e => e.name === "100p Action (Expected)").value,
                     }
                     console.log(`newArray`, cleanGearset)
                     addGearset(cleanGearset)
@@ -126,15 +129,6 @@ function Importer({
         }
     }
 
-    // function checkResponse(gearsetList) {
-    //     if (gearsetList.length > 0) {
-    //         return <div className='App'>Added {gearsetList[0].jobAbbrev} {gearsetList[0].name}</div>;
-    //     } else {
-    //         return null;
-    //     }
-
-    // }
-
     return ( 
         <>
             {/* manual typing */}
@@ -148,14 +142,14 @@ function Importer({
             <div className="input-group mb-3 ">
                 <select className="custom-select" id="inputGroupSelect04" onChange={e => setLink(e.target.value)}>
                     <option selected>Choose...</option>
-                    <option value="https://etro.gg/gearset/03eb2e94-9ab4-4c2a-88fc-3dee7802dcba">BLM</option>
-                    <option value="https://etro.gg/gearset/a4c03205-c821-4f25-a153-59f40d6dbc85">AST</option>
+                    <option value="https://etro.gg/gearset/aafd1811-be2a-4252-a9f7-27ee29699d4e">BLM</option>
+                    {/* <option value="https://etro.gg/gearset/a4c03205-c821-4f25-a153-59f40d6dbc85">AST</option>
                     <option value="https://etro.gg/gearset/5e70fc74-2509-42dc-948f-fdeecc14ae17">BRD</option>
                     <option value="https://etro.gg/gearset/a4d2d7e3-dcfe-4659-acac-5be0a8e3cb89">DRG</option>
                     <option value="https://etro.gg/gearset/fdb40071-44c4-41ec-91fa-0783d590e990">GNB</option>
                     <option value="https://etro.gg/gearset/837d0f5d-8ac7-4fc3-ba38-5ea7c3c44f50">NIN</option>
-                    <option value="https://etro.gg/gearset/2d18b9db-a3ea-475a-91be-4631b0ea63d4">SGE</option>
-                    <option value="https://etro.gg/gearset/9b78316a-233c-444c-8c3b-499e53678128">WAR</option>
+                    <option value="https://etro.gg/gearset/2d18b9db-a3ea-475a-91be-4631b0ea63d4">SGE</option> */}
+                    <option value="https://etro.gg/gearset/e849b479-d7eb-46dc-b801-b0c4d7a60881">WAR</option>
                 </select>
                 <div className="input-group-append">
                     <button className="btn btn-outline-secondary rounded-3" onClick={handleClick} type="button">Import</button>
